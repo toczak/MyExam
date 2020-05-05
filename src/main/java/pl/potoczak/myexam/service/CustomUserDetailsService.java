@@ -2,6 +2,7 @@ package pl.potoczak.myexam.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -11,6 +12,7 @@ import pl.potoczak.myexam.model.User;
 import pl.potoczak.myexam.repository.UserRepository;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashSet;
 
 @Service
@@ -26,16 +28,24 @@ public class CustomUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
-        User user = userRepository.findUserByUsername(s);
+        UserDetails user = userRepository.findUserByUsername(s);
         if (user == null) throw new UsernameNotFoundException("Can't find user: " + s);
-        return new org.springframework.security.core.userdetails.User(user.getUsername(),
-                user.getPassword(), getAuthorities(user));
+        UserDetails userDetails = (UserDetails) new org.springframework.security.core.userdetails.User(user.getUsername(),
+                user.getPassword(), getAuthorities(user)
+//                getAuthorities(user)
+        );
+        return userDetails;
     }
 
-    private static Collection<? extends GrantedAuthority> getAuthorities(User user) {
-        return new HashSet<GrantedAuthority>();
+    private Collection<? extends GrantedAuthority> getAuthorities(UserDetails user) {
+//        return Collections.singleton(new SimpleGrantedAuthority(user.getRole().getName()));
+        return user.getAuthorities();
     }
-//
+
+//    private static Collection<? extends GrantedAuthority> getAuthorities(User user) {
+//        return new HashSet<GrantedAuthority>();
+//    }
+
 //    private Collection<? extends GrantedAuthority> getAuthorities(Collection<Role> roles) {
 //        return getGrantedAuthorities(getPrivileges(roles));
 //    }

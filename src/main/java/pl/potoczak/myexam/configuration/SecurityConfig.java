@@ -41,6 +41,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     .antMatchers("/login","/register")
 //                    .permitAll()
                     .access("hasRole('ANONYMOUS')")
+                    .antMatchers("/index")
+                    .hasRole("STUDENT")
                     .anyRequest()
                     .authenticated()
                     .and()
