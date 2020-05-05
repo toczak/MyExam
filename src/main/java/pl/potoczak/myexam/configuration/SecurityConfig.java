@@ -10,6 +10,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import pl.potoczak.myexam.service.CustomUserDetailsService;
 
@@ -31,6 +32,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         return new BCryptPasswordEncoder();
     }
 
+    @Bean
+    public AuthenticationSuccessHandler authenticationSuccessHandler(){
+        return new CustomSimpleUrlAuthenticationSuccessHandler();
+    }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -41,7 +46,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     .antMatchers("/login","/register")
 //                    .permitAll()
                     .access("hasRole('ANONYMOUS')")
-                    .antMatchers("/index")
+                    .antMatchers("/teacher/**")
+                    .hasRole("TEACHER")
+                    .antMatchers("/admin/**")
+                    .hasRole("ADMIN")
+                    .antMatchers("/**")
                     .hasRole("STUDENT")
                     .anyRequest()
                     .authenticated()
@@ -49,20 +58,21 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .formLogin()
                     .loginPage("/login")
                     .permitAll()
-                    .defaultSuccessUrl("/index")
+                    .successHandler(authenticationSuccessHandler())
+//                    .defaultSuccessUrl("/index")
                     .usernameParameter("inputLogin")
                     .passwordParameter("inputPassword")
                     .failureUrl("/login?error=true")
                     .and()
                 .logout()
                     .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-                    .logoutSuccessUrl("/login");
-//                    .and()
-//                .exceptionHandling()
-//                    .accessDeniedHandler((request, response, accessDeniedException) ->
-//                            response.sendError(HttpServletResponse.SC_FORBIDDEN))
-//                    .authenticationEntryPoint((request, response, authException) ->
-//                            response.sendError(HttpServletResponse.SC_UNAUTHORIZED));
+                    .logoutSuccessUrl("/login")
+                    .and()
+                .exceptionHandling()
+                    .accessDeniedHandler((request, response, accessDeniedException) ->
+                            response.sendError(HttpServletResponse.SC_FORBIDDEN))
+                    .authenticationEntryPoint((request, response, authException) ->
+                            response.sendError(HttpServletResponse.SC_UNAUTHORIZED));
     }
 
     @Override
