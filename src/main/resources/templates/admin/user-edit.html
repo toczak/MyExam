@@ -75,6 +75,9 @@
                                     <label for="password">Password</label>
                                     <input type="password" class="form-control" id="password" th:field="*{password}"
                                            placeholder="Password" required>
+                                    <small id="passwordChange" class="form-text text-muted">Don't fill if you don't want
+                                        change it.
+                                    </small>
                                     <div th:if="${#fields.hasErrors('password')}" class="invalid-feedback d-block"
                                          th:errors="*{password}">
                                     </div>

@@ -57,7 +57,7 @@
                                     <td th:text="${#strings.substring(user.getRole().getName(),5)}"></td>
                                     <td th:text="${user.getEmail()}">61</td>
                                     <td>
-                                        <a href="#" class="btn btn-secondary btn-circle btn-sm">
+                                        <a th:href="@{/admin/user/edit/{id}(id=${user.getId()})}" class="btn btn-secondary btn-circle btn-sm">
                                             <i class="fas fa-edit"></i>
                                         </a>
                                         <a href="#" class="btn btn-danger btn-circle btn-sm">

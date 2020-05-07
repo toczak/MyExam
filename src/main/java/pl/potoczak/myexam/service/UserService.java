@@ -1,6 +1,7 @@
 package pl.potoczak.myexam.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.BindingResult;
 import pl.potoczak.myexam.model.Role;
@@ -13,11 +14,13 @@ public class UserService {
 
     private UserRepository userRepository;
     private RoleRepository roleRepository;
+    private PasswordEncoder passwordEncoder;
 
     @Autowired
-    public UserService(UserRepository userRepository, RoleRepository roleRepository) {
+    public UserService(UserRepository userRepository, RoleRepository roleRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     public Iterable<User> getAllUsers() {
@@ -25,6 +28,7 @@ public class UserService {
     }
 
     public void addUser(User user) {
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         userRepository.save(user);
     }
 

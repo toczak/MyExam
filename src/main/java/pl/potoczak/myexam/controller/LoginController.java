@@ -20,9 +20,9 @@ public class LoginController {
     }
 
     @GetMapping("/redirect")
-    public String showUserMainPage(Model model){
+    public String showUserMainPage(){
         String url = new CustomSimpleUrlAuthenticationSuccessHandler()
                 .determineTargetUrl(SecurityContextHolder.getContext().getAuthentication());
-        return "redirect:/" + url;
+        return "redirect:" + url;
     }
 }
