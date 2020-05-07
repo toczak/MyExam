@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="admin/fragments/head :: head">
+</head>
+
+<body id="page-top">
+
+<div id="wrapper">
+
+    <ul th:replace="admin/fragments/sidebar :: sidebar"/>
+
+    <!-- Content Wrapper -->
+    <div id="content-wrapper" class="d-flex flex-column">
+
+        <!-- Main Content -->
+        <div id="content">
+
+            <nav th:replace="admin/fragments/navbar :: navbar"/>
+
+            <!-- Begin Page Content -->
+            <div class="container-fluid">
+
+                <!-- Page Heading -->
+                <h1 class="h3 mb-2 text-gray-800">Add user</h1>
+                <!-- DataTales Example -->
+                <div class="card shadow mb-4">
+                    <div class="card-body">
+                        <form action="#" th:action="@{/admin/user/add}" th:object="${user}" method="post">
+                            <div class="form-row">
+                                <div class="mb-3">
+                                    <label for="username">Username</label>
+                                    <input type="text" class="form-control" id="username" th:field="*{username}"
+                                           placeholder="Username" required>
+                                    <div th:if="${#fields.hasErrors('username')}" class="invalid-feedback d-block"
+                                         th:errors="*{username}">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="mb-3">
+                                    <label for="fullName">Full name</label>
+                                    <input type="text" class="form-control" id="fullName" th:field="*{fullName}"
+                                           placeholder="Full name" required>
+                                    <div th:if="${#fields.hasErrors('fullName')}" class="invalid-feedback d-block"
+                                         th:errors="*{fullName}">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="mb-3">
+                                    <label for="email">E-mail</label>
+                                    <input type="text" class="form-control" id="email" th:field="*{email}"
+                                           placeholder="E-mail" required>
+                                    <div th:if="${#fields.hasErrors('email')}" class="invalid-feedback d-block"
+                                         th:errors="*{email}">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="mb-3">
+                                    <label for="role">Role</label>
+                                    <select class="form-control" th:field="*{role}">
+                                        <option th:each="role : ${roles}"
+                                                th:value="${role.getId()}"
+                                                th:utext="${role.getName()}"/>
+                                    </select>
+                                    <div th:if="${#fields.hasErrors('role')}" class="invalid-feedback d-block"
+                                         th:errors="*{role}">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="mb-3">
+                                    <label for="password">Password</label>
+                                    <input type="text" class="form-control" id="password" th:field="*{password}"
+                                           placeholder="Password" required>
+                                    <small id="passwordChange" class="form-text text-muted">Don't fill if you don't want
+                                        change it.
+                                    </small>
+                                    <div th:if="${#fields.hasErrors('password')}" class="invalid-feedback d-block"
+                                         th:errors="*{password}">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="mb-3">
+                                    <label for="matchPassword">Match password</label>
+                                    <input type="text" class="form-control" id="matchPassword" th:field="*{matchPassword}"
+                                           placeholder="Match password" required>
+                                    <div th:if="${#fields.hasErrors('matchPassword')}" class="invalid-feedback d-block"
+                                         th:errors="*{matchPassword}">
+                                    </div>
+                                </div>
+                            </div>
+                            <input class="btn btn-primary" value="Add user" type="submit"/>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /.container-fluid -->
+
+
+        <!-- End of Main Content -->
+
+        <footer th:replace="admin/fragments/footer :: footer"/>
+        <!-- End of Content Wrapper -->
+    </div>
+
+</div>
+<!-- End of Page Wrapper -->
+
+<!-- Scroll to Top Button-->
+<a class="scroll-to-top rounded" href="#page-top">
+    <i class="fas fa-angle-up"></i>
+</a>
+
+<!-- Bootstrap core JavaScript-->
+<script th:src="@{/vendor/jquery/jquery.min.js}"></script>
+<script th:src="@{/vendor/bootstrap/js/bootstrap.bundle.min.js}"></script>
+
+<!-- Core plugin JavaScript-->
+<script th:src="@{/vendor/jquery-easing/jquery.easing.min.js}"></script>
+
+<!-- Custom scripts for all pages-->
+<script th:src="@{/js/sb-admin-2.min.js}"></script>
+
+</body>
+
+</html>

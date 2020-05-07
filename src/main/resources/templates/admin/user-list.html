@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="admin/fragments/head :: head">
+</head>
+
+<body id="page-top">
+
+<div id="wrapper">
+
+    <ul th:replace="admin/fragments/sidebar :: sidebar"/>
+
+    <!-- Content Wrapper -->
+    <div id="content-wrapper" class="d-flex flex-column">
+
+        <!-- Main Content -->
+        <div id="content">
+
+            <nav th:replace="admin/fragments/navbar :: navbar"/>
+
+            <!-- Begin Page Content -->
+            <div class="container-fluid">
+
+                <!-- Page Heading -->
+                <h1 class="h3 mb-2 text-gray-800">Users list</h1>
+                <!-- DataTales Example -->
+                <div class="card shadow mb-4">
+                    <div class="card-header py-3">
+                        <h6 class="m-0 font-weight-bold text-primary">All of users</h6>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive" th:switch="${users}">
+                            <h2 th:case="null">Empty users list!</h2>
+                            <table th:case="*" class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                <thead>
+                                <tr>
+                                    <th>Username</th>
+                                    <th>Full name</th>
+                                    <th>Role</th>
+                                    <th>E-mail</th>
+                                    <th>Action</th>
+                                </tr>
+                                </thead>
+                                <tfoot>
+                                <tr>
+                                    <th>Username</th>
+                                    <th>Full name</th>
+                                    <th>Role</th>
+                                    <th>E-mail</th>
+                                    <th>Action</th>
+                                </tr>
+                                </tfoot>
+                                <tbody>
+                                <tr th:each="user : ${users}">
+                                    <td th:text="${user.getUsername()}"></td>
+                                    <td th:text="${user.getFullName()}"></td>
+                                    <td th:text="${#strings.substring(user.getRole().getName(),5)}"></td>
+                                    <td th:text="${user.getEmail()}">61</td>
+                                    <td>
+                                        <a href="#" class="btn btn-secondary btn-circle btn-sm">
+                                            <i class="fas fa-edit"></i>
+                                        </a>
+                                        <a href="#" class="btn btn-danger btn-circle btn-sm">
+                                            <i class="fas fa-trash"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /.container-fluid -->
+
+
+        <!-- End of Main Content -->
+
+        <footer th:replace="admin/fragments/footer :: footer"/>
+        <!-- End of Content Wrapper -->
+    </div>
+
+</div>
+<!-- End of Page Wrapper -->
+
+<!-- Scroll to Top Button-->
+<a class="scroll-to-top rounded" href="#page-top">
+    <i class="fas fa-angle-up"></i>
+</a>
+
+<!-- Bootstrap core JavaScript-->
+<script th:src="@{/vendor/jquery/jquery.min.js}"></script>
+<script th:src="@{/vendor/bootstrap/js/bootstrap.bundle.min.js}"></script>
+
+<!-- Core plugin JavaScript-->
+<script th:src="@{/vendor/jquery-easing/jquery.easing.min.js}"></script>
+
+<!-- Custom scripts for all pages-->
+<script th:src="@{/js/sb-admin-2.min.js}"></script>
+
+</body>
+
+</html>

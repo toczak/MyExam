@@ -6,6 +6,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+import javax.validation.constraints.*;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
@@ -21,16 +22,27 @@ public class User implements UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotBlank(message = "Username is required!")
+    @Column(unique = true)
     private String username;
 
+    @NotBlank(message = "Full name is required!")
     private String fullName;
 
+    @NotBlank(message = "Password is required!")
     private String password;
 
+    @Transient
+    private String matchPassword;
+
+    @NotBlank(message = "E-mail is required!")
+    @Column(unique = true)
+    @Email
     private String email;
 
     @ManyToOne
     @JoinColumn(name = "role_id", nullable = false)
+    @NotNull(message = "Please choose valid role!")
     private Role role;
 
     public Long getId() {
@@ -82,6 +94,14 @@ public class User implements UserDetails {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getMatchPassword() {
+        return matchPassword;
+    }
+
+    public void setMatchPassword(String matchPassword) {
+        this.matchPassword = matchPassword;
     }
 
     public String getEmail() {

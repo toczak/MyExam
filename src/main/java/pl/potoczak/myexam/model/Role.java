@@ -15,6 +15,10 @@ public class Role {
     @OneToMany(mappedBy = "role")
     private Collection<User> users;
 
+    public Long getId() {
+        return id;
+    }
+
     public String getName() {
         return name;
     }

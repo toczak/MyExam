@@ -1,11 +1,13 @@
 package pl.potoczak.myexam.configuration;
 
+import org.springframework.context.annotation.Scope;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.web.DefaultRedirectStrategy;
 import org.springframework.security.web.RedirectStrategy;
 import org.springframework.security.web.WebAttributes;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.springframework.stereotype.Component;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -16,6 +18,8 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
+//@Component
+//@Scope("request")
 public class CustomSimpleUrlAuthenticationSuccessHandler implements AuthenticationSuccessHandler {
 
     private RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
@@ -39,7 +43,7 @@ public class CustomSimpleUrlAuthenticationSuccessHandler implements Authenticati
         redirectStrategy.sendRedirect(request,response,targetUrl);
     }
 
-    private String determineTargetUrl(Authentication authentication) {
+    public String determineTargetUrl(Authentication authentication) {
         Map<String, String> roleTargetUrlMap = new HashMap<>();
         roleTargetUrlMap.put("ROLE_STUDENT", "/index");
         roleTargetUrlMap.put("ROLE_TEACHER", "/teacher/index");
