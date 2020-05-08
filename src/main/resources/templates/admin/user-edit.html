@@ -26,7 +26,7 @@
                 <!-- DataTales Example -->
                 <div class="card shadow mb-4">
                     <div class="card-body">
-                        <form action="#" th:action="@{/admin/user/add}" th:object="${user}" method="post">
+                        <form action="#" th:action="@{/admin/user/edit/{id}(id=${user.getId()})}" th:object="${user}" method="post">
                             <div class="form-row">
                                 <div class="mb-3">
                                     <label for="username">Username</label>
@@ -74,9 +74,9 @@
                                 <div class="mb-3">
                                     <label for="password">Password</label>
                                     <input type="password" class="form-control" id="password" th:field="*{password}"
-                                           placeholder="Password" required>
+                                           placeholder="Password">
                                     <small id="passwordChange" class="form-text text-muted">Don't fill if you don't want
-                                        change it.
+                                        change password.
                                     </small>
                                     <div th:if="${#fields.hasErrors('password')}" class="invalid-feedback d-block"
                                          th:errors="*{password}">
@@ -87,13 +87,16 @@
                                 <div class="mb-3">
                                     <label for="matchPassword">Match password</label>
                                     <input type="password" class="form-control" id="matchPassword" th:field="*{matchPassword}"
-                                           placeholder="Match password" required>
+                                           placeholder="Match password">
+                                    <small id="passwordChange" class="form-text text-muted">Don't fill if you don't want
+                                        change password.
+                                    </small>
                                     <div th:if="${#fields.hasErrors('matchPassword')}" class="invalid-feedback d-block"
                                          th:errors="*{matchPassword}">
                                     </div>
                                 </div>
                             </div>
-                            <input class="btn btn-primary" value="Add user" type="submit"/>
+                            <input class="btn btn-primary" value="Edit user" type="submit"/>
                         </form>
                     </div>
                 </div>

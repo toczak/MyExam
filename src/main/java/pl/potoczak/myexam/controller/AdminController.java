@@ -4,9 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
+import pl.potoczak.myexam.dto.UserDTO;
 import pl.potoczak.myexam.model.User;
 import pl.potoczak.myexam.service.UserService;
 
@@ -43,22 +42,52 @@ public class AdminController {
     }
 
     @GetMapping(value = {"/user/add"})
-    public String getAddUserForm(Model model, User user) {
+    public String getAddUserForm(Model model, @ModelAttribute("user") UserDTO user) {
         model.addAttribute("pageTitle", "Add user | Admin | MyExam");
         model.addAttribute("roles", userService.getAllRoles());
         return "admin/user-add";
     }
 
     @PostMapping(value = {"/user/add"})
-    public String addNewUser(@Valid User user, BindingResult result, Model model) {
-        userService.validateAddUser(user, result);
+    public String addNewUser(@ModelAttribute("user") @Valid UserDTO userDto, BindingResult result, Model model) {
+        userService.validateAddUser(userDto, result);
 
         if (result.hasErrors()) {
             model.addAttribute("pageTitle", "Add user | Admin | MyExam");
             model.addAttribute("roles", userService.getAllRoles());
             return "admin/user-add";
         }
+        User user = userService.getNewUserFromDTO(userDto);
         userService.addUser(user);
+        return getUsersList(model);
+    }
+
+    @GetMapping(value = {"/user/edit/{id}"})
+    public String getEditUserForm(@PathVariable("id") long id, Model model) {
+        User user = userService.getUserById(id);
+        if (user == null) {
+            return "redirect:" + getUsersList(model);
+        } else {
+            UserDTO userDto = userService.getUserDTO(user);
+            model.addAttribute("pageTitle", "Edit user (id: " + id + ") | Admin | MyExam");
+            model.addAttribute("user", userDto);
+            model.addAttribute("roles", userService.getAllRoles());
+            return "admin/user-edit";
+        }
+    }
+
+    @PostMapping(value = {"/user/edit/{id}"})
+    public String editUser(@PathVariable("id") long id, @ModelAttribute("user") @Valid UserDTO userDto,
+                           BindingResult result, Model model) {
+        userService.validateEditUser(userDto, result);
+        if (result.hasErrors()) {
+            userDto.setId(id);
+            model.addAttribute("pageTitle", "Edit user (id: " + id + ") | Admin | MyExam");
+            model.addAttribute("roles", userService.getAllRoles());
+            return "admin/user-edit";
+        }
+        User user = userService.getEditedUserFromDTO(userDto);
+        userService.saveUser(user);
         return getUsersList(model);
     }
 }
