@@ -5,7 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import pl.potoczak.myexam.dto.UserDTO;
+import pl.potoczak.myexam.dto.UserDto;
 import pl.potoczak.myexam.model.User;
 import pl.potoczak.myexam.service.UserService;
 
@@ -42,14 +42,14 @@ public class AdminController {
     }
 
     @GetMapping(value = {"/user/add"})
-    public String getAddUserForm(Model model, @ModelAttribute("user") UserDTO user) {
+    public String getAddUserForm(Model model, @ModelAttribute("user") UserDto user) {
         model.addAttribute("pageTitle", "Add user | Admin | MyExam");
         model.addAttribute("roles", userService.getAllRoles());
         return "admin/user-add";
     }
 
     @PostMapping(value = {"/user/add"})
-    public String addNewUser(@ModelAttribute("user") @Valid UserDTO userDto, BindingResult result, Model model) {
+    public String addNewUser(@ModelAttribute("user") @Valid UserDto userDto, BindingResult result, Model model) {
         userService.validateAddUser(userDto, result);
 
         if (result.hasErrors()) {
@@ -68,7 +68,7 @@ public class AdminController {
         if (user == null) {
             return "redirect:" + getUsersList(model);
         } else {
-            UserDTO userDto = userService.getUserDTO(user);
+            UserDto userDto = userService.getUserDTO(user);
             model.addAttribute("pageTitle", "Edit user (id: " + id + ") | Admin | MyExam");
             model.addAttribute("user", userDto);
             model.addAttribute("roles", userService.getAllRoles());
@@ -77,7 +77,7 @@ public class AdminController {
     }
 
     @PostMapping(value = "/user/edit/{id}")
-    public String editUser(@PathVariable("id") long id, @ModelAttribute("user") @Valid UserDTO userDto,
+    public String editUser(@PathVariable("id") long id, @ModelAttribute("user") @Valid UserDto userDto,
                            BindingResult result, Model model) {
         userService.validateEditUser(userDto, result);
         if (result.hasErrors()) {

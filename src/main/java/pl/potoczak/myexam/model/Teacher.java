@@ -15,4 +15,7 @@ public class Teacher extends User {
 
     @OneToMany(mappedBy = "teacher")
     private Collection<Test> tests;
+
+    @OneToMany(mappedBy = "teacher")
+    private Collection<Question> questions;
 }

@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.BindingResult;
-import pl.potoczak.myexam.dto.UserDTO;
+import pl.potoczak.myexam.dto.UserDto;
 import pl.potoczak.myexam.model.Role;
 import pl.potoczak.myexam.model.User;
 import pl.potoczak.myexam.repository.RoleRepository;
@@ -44,7 +44,7 @@ public class UserService {
         return userRepository.findUserByEmail(email) != null;
     }
 
-    public void validateAddUser(UserDTO user, BindingResult result) {
+    public void validateAddUser(UserDto user, BindingResult result) {
         if (!user.getPassword().equals(user.getMatchPassword())) {
             result.rejectValue("matchPassword", "error.matchPassword", "Password don't match.");
         }
@@ -66,8 +66,8 @@ public class UserService {
         return userRepository.findUserById(id);
     }
 
-    public UserDTO getUserDTO(User user) {
-        UserDTO userDto = new UserDTO();
+    public UserDto getUserDTO(User user) {
+        UserDto userDto = new UserDto();
         userDto.setId(user.getId());
         userDto.setUsername(user.getUsername());
         userDto.setFullName(user.getFullName());
@@ -76,7 +76,7 @@ public class UserService {
         return userDto;
     }
 
-    public User getNewUserFromDTO(UserDTO userDto) {
+    public User getNewUserFromDTO(UserDto userDto) {
         User user = new User();
         user.setUsername(userDto.getUsername());
         user.setFullName(userDto.getFullName());
@@ -86,7 +86,7 @@ public class UserService {
         return user;
     }
 
-    public User getEditedUserFromDTO(UserDTO userDto) {
+    public User getEditedUserFromDTO(UserDto userDto) {
         User user = userRepository.findUserById(userDto.getId());
         user.setUsername(userDto.getUsername());
         user.setFullName(userDto.getFullName());
@@ -100,7 +100,7 @@ public class UserService {
         return user;
     }
 
-    public void validateEditUser(UserDTO user, BindingResult result) {
+    public void validateEditUser(UserDto user, BindingResult result) {
         if (!user.getPassword().equals(user.getMatchPassword())) {
             result.rejectValue("matchPassword", "error.matchPassword", "Password don't match.");
         }

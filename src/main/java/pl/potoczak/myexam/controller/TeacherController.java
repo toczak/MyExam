@@ -5,7 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import pl.potoczak.myexam.dto.UserDTO;
+import pl.potoczak.myexam.dto.UserDto;
 import pl.potoczak.myexam.model.User;
 import pl.potoczak.myexam.service.UserService;
 import pl.potoczak.myexam.validation.Ignored;
@@ -43,13 +43,13 @@ public class TeacherController implements Ignored {
     }
 
     @GetMapping(value = {"/student/add"})
-    public String getAddStudentForm(Model model, @ModelAttribute("user") UserDTO user) {
+    public String getAddStudentForm(Model model, @ModelAttribute("user") UserDto user) {
         model.addAttribute("pageTitle", "Add student | Teacher | MyExam");
         return "teacher/user-add";
     }
 
     @PostMapping(value = {"/student/add"})
-    public String addNewStudent(@ModelAttribute("user") @Valid UserDTO userDTO, BindingResult result, Model model) {
+    public String addNewStudent(@ModelAttribute("user") @Valid UserDto userDTO, BindingResult result, Model model) {
         userDTO.setRole(userService.getStudentRole());
         userService.validateAddUser(userDTO, result);
 
@@ -68,7 +68,7 @@ public class TeacherController implements Ignored {
         if (user == null) {
             return "redirect:" + getStudentList(model);
         } else {
-            UserDTO userDTO = userService.getUserDTO(user);
+            UserDto userDTO = userService.getUserDTO(user);
             model.addAttribute("pageTitle", "Edit student (id: " + id + ") | Teacher | MyExam");
             model.addAttribute("user", userDTO);
             return "teacher/user-edit";
@@ -76,7 +76,7 @@ public class TeacherController implements Ignored {
     }
 
     @PostMapping(value = "/student/edit/{id}")
-    public String editUser(@PathVariable("id") long id, @ModelAttribute("user") @Valid UserDTO userDTO,
+    public String editUser(@PathVariable("id") long id, @ModelAttribute("user") @Valid UserDto userDTO,
                            BindingResult result, Model model) {
         userService.validateEditUser(userDTO, result);
         if (result.hasErrors()) {

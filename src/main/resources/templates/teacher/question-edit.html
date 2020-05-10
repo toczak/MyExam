@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="admin/fragments/head :: head">
+</head>
+
+<body id="page-top">
+
+<div id="wrapper">
+
+    <ul th:replace="teacher/fragments/sidebar :: sidebar"/>
+
+    <!-- Content Wrapper -->
+    <div id="content-wrapper" class="d-flex flex-column">
+
+        <!-- Main Content -->
+        <div id="content">
+
+            <nav th:replace="teacher/fragments/navbar :: navbar"/>
+
+            <!-- Begin Page Content -->
+            <div class="container-fluid">
+
+                <!-- Page Heading -->
+                <h1 class="h3 mb-2 text-gray-800">Edit question</h1>
+                <!-- DataTales Example -->
+                <div class="card shadow mb-4">
+                    <div class="card-body">
+                        <form action="#" th:action="@{/teacher/question/edit/{id}(id=${question.getId()})}" th:object="${question}" method="post">
+                            <div class="mb-3">
+                                <label for="text">Text question</label>
+                                <textarea class="form-control" id="text" th:field="*{text}"></textarea>
+                                <div th:if="${#fields.hasErrors('text')}" class="invalid-feedback d-block"
+                                th:errors="*{text}">
+                                </div>
+                            </div>
+                            <div class="mb-3" th:each="answer, itemStat : *{answers}">
+                                <label th:for="${'answer'+itemStat.index}" th:text="${'Answer ['+(itemStat.index+1)+']'}" ></label>
+                                <textarea class="form-control" th:for="${'answer' + itemStat.index}" th:field="*{answers[__${itemStat.index}__].text}" ></textarea>
+
+                                <div th:if="${#fields.hasErrors('*')}" class="invalid-feedback d-block"
+                                th:errors="*{answers[__${itemStat.index}__].text}">
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="mb-3">
+                                    <label for="correctAnswer">Correct answer</label>
+                                    <select class="form-control" id="correctAnswer" th:field="*{correctAnswer}">
+                                        <option value="1">Answer [1]</option>
+                                        <option value="2">Answer [2]</option>
+                                        <option value="3">Answer [3]</option>
+                                        <option value="4">Answer [4]</option>
+                                    </select>
+                                    <div th:if="${#fields.hasErrors('correctAnswer')}" class="invalid-feedback d-block"
+                                    th:errors="*{correctAnswer}">
+                                    </div>
+                                </div>
+                            </div>
+                            <input class="btn btn-primary" value="Edit question" type="submit"/>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /.container-fluid -->
+
+
+        <!-- End of Main Content -->
+
+        <footer th:replace="teacher/fragments/footer :: footer"/>
+        <!-- End of Content Wrapper -->
+    </div>
+
+</div>
+<!-- End of Page Wrapper -->
+
+<!-- Scroll to Top Button-->
+<a class="scroll-to-top rounded" href="#page-top">
+    <i class="fas fa-angle-up"></i>
+</a>
+
+<!-- Bootstrap core JavaScript-->
+<script th:src="@{/vendor/jquery/jquery.min.js}"></script>
+<script th:src="@{/vendor/bootstrap/js/bootstrap.bundle.min.js}"></script>
+
+<!-- Core plugin JavaScript-->
+<script th:src="@{/vendor/jquery-easing/jquery.easing.min.js}"></script>
+
+<!-- Custom scripts for all pages-->
+<script th:src="@{/js/sb-admin-2.min.js}"></script>
+
+</body>
+
+</html>

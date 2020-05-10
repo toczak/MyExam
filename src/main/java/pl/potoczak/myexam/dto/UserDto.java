@@ -8,7 +8,7 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
-public class UserDTO {
+public class UserDto {
     private Long id;
 
     @NotBlank(message = "Username is required!")
