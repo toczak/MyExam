@@ -14,9 +14,5 @@ public interface UserRepository extends CrudRepository<User,Long> {
     User findUserById(long id);
 
     Iterable<User> findAll();
-//    boolean existsByUsernameAndIdNotIn(String username, Long id);
-//
-//    boolean existsByUsername(String username);
-//    boolean existsUserByUsernameExistsOrEmailExists(String username, String email);
-//    boolean existsUserByUsernameExistsAndIdIsNotIn(String username, Long id);
+    Iterable<User> findAllByRole_NameEquals(String roleName);
 }

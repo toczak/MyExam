@@ -1,6 +1,7 @@
 package pl.potoczak.myexam.dto;
 
 import pl.potoczak.myexam.model.Role;
+import pl.potoczak.myexam.validation.Ignored;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
@@ -24,7 +25,7 @@ public class UserDTO {
     @Email
     private String email;
 
-    @NotNull(message = "Please choose valid role!")
+    @NotNull(groups = Ignored.class, message = "Please choose valid role!")
     private Role role;
 
     public Long getId() {

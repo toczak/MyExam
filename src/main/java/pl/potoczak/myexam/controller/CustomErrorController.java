@@ -18,7 +18,7 @@ public class CustomErrorController implements ErrorController {
         if (status != null) {
             int statusCode = Integer.parseInt(status.toString());
             request.setAttribute("pageTitle","Error | MyExam");
-            request.setAttribute("errorCode","-");
+            request.setAttribute("errorCode","...");
             request.setAttribute("errorDescription", "Unhandled error!");
 
             if(statusCode == HttpStatus.UNAUTHORIZED.value()){

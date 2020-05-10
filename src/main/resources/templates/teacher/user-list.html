@@ -8,7 +8,7 @@
 
 <div id="wrapper">
 
-    <ul th:replace="admin/fragments/sidebar :: sidebar"/>
+    <ul th:replace="teacher/fragments/sidebar :: sidebar"/>
 
     <!-- Content Wrapper -->
     <div id="content-wrapper" class="d-flex flex-column">
@@ -16,49 +16,49 @@
         <!-- Main Content -->
         <div id="content">
 
-            <nav th:replace="admin/fragments/navbar :: navbar"/>
+            <nav th:replace="teacher/fragments/navbar :: navbar"/>
 
             <!-- Begin Page Content -->
             <div class="container-fluid">
 
                 <!-- Page Heading -->
-                <h1 class="h3 mb-2 text-gray-800">Users list</h1>
+                <h1 class="h3 mb-2 text-gray-800">Students list</h1>
                 <!-- DataTales Example -->
                 <div class="card shadow mb-4">
                     <div class="card-header py-3">
-                        <h6 class="m-0 font-weight-bold text-primary">All of users</h6>
+                        <h6 class="m-0 font-weight-bold text-primary">All of students</h6>
                     </div>
                     <div class="card-body">
-
                         <div class="table-responsive" th:switch="${#lists.isEmpty(users)}">
-                            <h2 th:case="${true}">Empty users list!</h2>
-                            <table th:case="${false}" class="table table-bordered" id="dataTable">
+                            <h2 th:case="${true}">Empty students list!</h2>
+                            <table th:case="${false}" class="table table-bordered" id="dataTable"
+                                   width="100%" cellspacing="0">
                                 <thead>
                                 <tr>
+                                    <th>ID</th>
                                     <th>Username</th>
                                     <th>Full name</th>
-                                    <th>Role</th>
                                     <th>E-mail</th>
                                     <th>Action</th>
                                 </tr>
                                 </thead>
                                 <tfoot>
                                 <tr>
+                                    <th>ID</th>
                                     <th>Username</th>
                                     <th>Full name</th>
-                                    <th>Role</th>
                                     <th>E-mail</th>
                                     <th>Action</th>
                                 </tr>
                                 </tfoot>
                                 <tbody>
                                 <tr th:each="user : ${users}">
+                                    <td th:text="${user.getId()}"></td>
                                     <td th:text="${user.getUsername()}"></td>
                                     <td th:text="${user.getFullName()}"></td>
-                                    <td th:text="${#strings.substring(user.getRole().getName(),5)}"></td>
                                     <td th:text="${user.getEmail()}">61</td>
                                     <td>
-                                        <a th:href="@{/admin/user/edit/{id}(id=${user.getId()})}"
+                                        <a th:href="@{/teacher/student/edit/{id}(id=${user.getId()})}"
                                            class="btn btn-secondary btn-circle btn-sm">
                                             <i class="fas fa-edit"></i>
                                         </a>
@@ -80,7 +80,7 @@
 
         <!-- End of Main Content -->
 
-        <footer th:replace="admin/fragments/footer :: footer"/>
+        <footer th:replace="teacher/fragments/footer :: footer"/>
         <!-- End of Content Wrapper -->
     </div>
 
@@ -104,9 +104,9 @@
                     <span aria-hidden="true">×</span>
                 </button>
             </div>
-            <div class="modal-body">Do you want to delete user with ID = <span id="modalDeleteId"></span>?</div>
+            <div class="modal-body">Do you want to delete student with ID = <span id="modalDeleteId"></span>?</div>
             <div class="modal-footer">
-                <form action="#" th:action="@{/admin/user/delete}" method="post">
+                <form action="#" th:action="@{/teacher/student/delete}" method="post">
                     <input type="hidden" id="id_del" name="id_del" value=""/>
                     <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
                     <input type="submit" value="Delete" class="btn btn-danger"/>

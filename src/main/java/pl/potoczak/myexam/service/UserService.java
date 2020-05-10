@@ -121,4 +121,18 @@ public class UserService {
     private boolean isUserWithEmailWithoutIdExists(String email, Long id) {
         return userRepository.findUserByEmailAndIdNotLike(email, id) != null;
     }
+
+    public void deleteUser(User user) {
+        userRepository.delete(user);
+    }
+
+    public Iterable<User> getAllStudents() {
+        return userRepository.findAllByRole_NameEquals("ROLE_STUDENT");
+    }
+
+    public Role getStudentRole(){
+        return roleRepository.getRoleByName("ROLE_STUDENT");
+    }
+
+
 }

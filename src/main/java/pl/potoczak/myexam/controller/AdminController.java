@@ -76,7 +76,7 @@ public class AdminController {
         }
     }
 
-    @PostMapping(value = {"/user/edit/{id}"})
+    @PostMapping(value = "/user/edit/{id}")
     public String editUser(@PathVariable("id") long id, @ModelAttribute("user") @Valid UserDTO userDto,
                            BindingResult result, Model model) {
         userService.validateEditUser(userDto, result);
@@ -88,6 +88,13 @@ public class AdminController {
         }
         User user = userService.getEditedUserFromDTO(userDto);
         userService.saveUser(user);
+        return getUsersList(model);
+    }
+
+    @PostMapping(value = "/user/delete")
+    public String deleteUser(@RequestParam (name = "id_del") long id, Model model) {
+        User user = userService.getUserById(id);
+        userService.deleteUser(user);
         return getUsersList(model);
     }
 }
