@@ -11,6 +11,7 @@ public class Answer {
     private Long id;
 
     @NotBlank(message = "Text answer is required")
+    @Column(length = 400)
     private String text;
 
     @ManyToOne

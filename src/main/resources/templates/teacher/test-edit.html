@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="teacher/fragments/head :: head">
+</head>
+
+<body id="page-top">
+
+<div id="wrapper">
+
+    <ul th:replace="teacher/fragments/sidebar :: sidebar"/>
+
+    <!-- Content Wrapper -->
+    <div id="content-wrapper" class="d-flex flex-column">
+
+        <!-- Main Content -->
+        <div id="content">
+
+            <nav th:replace="teacher/fragments/navbar :: navbar"/>
+
+            <!-- Begin Page Content -->
+            <div class="container-fluid">
+
+                <!-- Page Heading -->
+                <h1 class="h3 mb-2 text-gray-800">Edit test</h1>
+                <!-- DataTales Example -->
+                <div class="card shadow mb-4">
+                    <div class="card-body">
+                        <form action="#" th:action="@{/teacher/test/edit/{id}(id=${test.getId()})}" th:object="${test}" method="post">
+                            <div class="form-row">
+                                <div class="mb-3">
+                                    <label for="name">Test name</label>
+                                    <input type="text" class="form-control" id="name" th:field="*{name}"
+                                           placeholder="Test name" required>
+                                    <div th:if="${#fields.hasErrors('name')}" class="invalid-feedback d-block"
+                                         th:errors="*{name}">
+                                    </div>
+                                </div>
+                            </div>
+                            <label>Questions (check to add question to test)</label>
+                            <div class="mb-3 table-wrapper-scroll-y custom-scrollbar">
+                                <table class="table table-bordered table-striped">
+                                    <thead>
+                                    <tr>
+                                        <th scope="col">Include question?</th>
+                                        <th scope="col">Id</th>
+                                        <th scope="col">Question</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr th:each="question, stat : ${questionsList}">
+                                        <td><input type="checkbox" th:id="${question.getId()}"
+                                                   th:field="*{questions}" th:value="${question.getId()}"></td>
+                                        <td th:text="${question.getId()}"></td>
+                                        <td th:text="${question.getText()}"></td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <label>Students (check to share test)</label>
+                            <div class="mb-3 table-wrapper-scroll-y custom-scrollbar">
+                                <table class="table table-bordered table-striped">
+                                    <thead>
+                                    <tr>
+                                        <th scope="col">Share test?</th>
+                                        <th scope="col">Id</th>
+                                        <th scope="col">Full name</th>
+                                        <th scope="col">Username</th>
+                                        <th scope="col">E-mail</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr th:each="student, stat : ${studentsList}">
+                                        <td><input type="checkbox" th:id="${student.getId()}"
+                                                   th:field="*{students}" th:value="${student.getId()}"></td>
+                                        <td th:text="${student.getId()}"></td>
+                                        <td th:text="${student.getFullName()}"></td>
+                                        <td th:text="${student.getUsername()}"></td>
+                                        <td th:text="${student.getEmail()}"></td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <input class="btn btn-primary" value="Edit test" type="submit"/>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /.container-fluid -->
+
+
+        <!-- End of Main Content -->
+
+        <footer th:replace="teacher/fragments/footer :: footer"/>
+        <!-- End of Content Wrapper -->
+    </div>
+
+</div>
+<!-- End of Page Wrapper -->
+
+<!-- Scroll to Top Button-->
+<a class="scroll-to-top rounded" href="#page-top">
+    <i class="fas fa-angle-up"></i>
+</a>
+
+<!-- Bootstrap core JavaScript-->
+<script th:src="@{/vendor/jquery/jquery.min.js}"></script>
+<script th:src="@{/vendor/bootstrap/js/bootstrap.bundle.min.js}"></script>
+
+<!-- Core plugin JavaScript-->
+<script th:src="@{/vendor/jquery-easing/jquery.easing.min.js}"></script>
+
+<!-- Custom scripts for all pages-->
+<script th:src="@{/js/sb-admin-2.min.js}"></script>
+
+</body>
+
+</html>

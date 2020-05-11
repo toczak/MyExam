@@ -14,4 +14,20 @@ public class Student extends User {
 
     @ManyToMany(mappedBy = "students")
     private Collection<Test> tests;
+
+    public Collection<Teacher> getTeachers() {
+        return teachers;
+    }
+
+    public void setTeachers(Collection<Teacher> teachers) {
+        this.teachers = teachers;
+    }
+
+    public Collection<Test> getTests() {
+        return tests;
+    }
+
+    public void setTests(Collection<Test> tests) {
+        this.tests = tests;
+    }
 }

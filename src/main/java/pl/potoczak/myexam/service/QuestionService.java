@@ -3,15 +3,11 @@ package pl.potoczak.myexam.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
-import org.springframework.validation.BindingResult;
 import pl.potoczak.myexam.dto.QuestionDto;
-import pl.potoczak.myexam.model.Answer;
 import pl.potoczak.myexam.model.Question;
 import pl.potoczak.myexam.model.Teacher;
-import pl.potoczak.myexam.model.User;
 import pl.potoczak.myexam.repository.QuestionRepository;
 
-import java.util.List;
 import java.util.Optional;
 import java.util.stream.IntStream;
 

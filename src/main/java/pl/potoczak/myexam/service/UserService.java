@@ -5,8 +5,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.BindingResult;
 import pl.potoczak.myexam.dto.UserDto;
-import pl.potoczak.myexam.model.Role;
-import pl.potoczak.myexam.model.User;
+import pl.potoczak.myexam.model.*;
 import pl.potoczak.myexam.repository.RoleRepository;
 import pl.potoczak.myexam.repository.UserRepository;
 
@@ -77,12 +76,30 @@ public class UserService {
     }
 
     public User getNewUserFromDTO(UserDto userDto) {
-        User user = new User();
+        User user = getUserByRole(userDto.getRole());
         user.setUsername(userDto.getUsername());
         user.setFullName(userDto.getFullName());
         user.setRole(userDto.getRole());
         user.setEmail(userDto.getEmail());
         user.setPassword(passwordEncoder.encode(userDto.getPassword()));
+        return user;
+    }
+
+    private User getUserByRole(Role role) {
+        User user;
+        switch (role.getName()) {
+            case "ROLE_STUDENT":
+                user = new Student();
+                break;
+            case "ROLE_TEACHER":
+                user = new Teacher();
+                break;
+            case "ROLE_ADMIN":
+                user = new Admin();
+                break;
+            default:
+                user = new User();
+        }
         return user;
     }
 
@@ -130,7 +147,7 @@ public class UserService {
         return userRepository.findAllByRole_NameEquals("ROLE_STUDENT");
     }
 
-    public Role getStudentRole(){
+    public Role getStudentRole() {
         return roleRepository.getRoleByName("ROLE_STUDENT");
     }
 
