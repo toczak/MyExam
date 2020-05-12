@@ -53,7 +53,12 @@
                                 <tr th:each="question : ${questions}">
                                     <td th:text="${question.getId()}"></td>
                                     <td th:text="${question.getText()}"></td>
-                                    <td> 1 - jidsidjsaidjsa <br/>2 - terwtrewrew</td>
+                                    <td th:switch="${#lists.isEmpty(question.getTests())}">
+                                        <p th:case="${true}" th:text="Empty"></p>
+                                        <div th:case="${false}" th:each="test : ${question.getTests()}">
+                                            <p th:text="${test.getId() +' - '+ test.getName()}"></p>
+                                        </div>
+                                    </td>
                                     <td>
                                         <a th:href="@{/teacher/question/edit/{id}(id=${question.getId()})}"
                                            class="btn btn-secondary btn-circle btn-sm">

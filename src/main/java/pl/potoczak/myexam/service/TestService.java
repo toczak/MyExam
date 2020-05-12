@@ -7,7 +7,7 @@ import pl.potoczak.myexam.model.*;
 import pl.potoczak.myexam.repository.QuestionRepository;
 import pl.potoczak.myexam.repository.StudentRepository;
 import pl.potoczak.myexam.repository.TestRepository;
-import pl.potoczak.myexam.repository.UserRepository;
+import pl.potoczak.myexam.repository.TestResultRepository;
 
 import java.util.List;
 import java.util.Optional;
@@ -18,12 +18,14 @@ public class TestService {
     private TestRepository testRepository;
     private StudentRepository studentRepository;
     private QuestionRepository questionRepository;
+    private TestResultRepository testResultRepository;
 
     @Autowired
-    public TestService(TestRepository testRepository, StudentRepository studentRepository, QuestionRepository questionRepository) {
+    public TestService(TestRepository testRepository, StudentRepository studentRepository, QuestionRepository questionRepository, TestResultRepository testResultRepository) {
         this.testRepository = testRepository;
         this.studentRepository = studentRepository;
         this.questionRepository = questionRepository;
+        this.testResultRepository = testResultRepository;
     }
 
     public Iterable<Test> getAllTeacherTests() {
@@ -42,9 +44,41 @@ public class TestService {
         return studentRepository.findAllByRole_NameEquals("ROLE_STUDENT");
     }
 
-    public void saveTest(Test test) {
+    private void saveTest(Test test){
         test.setTeacher(getPrincipalTeacher());
         testRepository.save(test);
+    }
+
+    public void addTest(Test test) {
+        saveTest(test);
+        addAndSaveTestsResult(test);
+    }
+
+    public void editTest(Test test) {
+        saveTest(test);
+        deleteOrSkipUsersTestResultFromTest(test);
+        addAndSaveTestsResult(test);
+    }
+
+    private void addAndSaveTestsResult(Test test){
+        for (Student student : test.getStudents()) {
+            TestResult testResult = new TestResult();
+            testResult.setStudent(student);
+            testResult.setTest(test);
+            testResult.setEnabled(true);
+            testResultRepository.save(testResult);
+        }
+    }
+
+    private void deleteOrSkipUsersTestResultFromTest(Test test) {
+        List<TestResult> testResults = testResultRepository.findAllByTestId(test.getId());
+        for (TestResult testResult : testResults) {
+            if (test.getStudents().contains(testResult.getStudent())) {
+                test.getStudents().remove(testResult.getStudent());
+            } else {
+                testResultRepository.delete(testResult);
+            }
+        }
     }
 
     public Test getTestById(long id) {

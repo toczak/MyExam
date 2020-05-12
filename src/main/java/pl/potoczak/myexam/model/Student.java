@@ -3,6 +3,7 @@ package pl.potoczak.myexam.model;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import java.util.Collection;
 
 @Entity
@@ -14,6 +15,9 @@ public class Student extends User {
 
     @ManyToMany(mappedBy = "students")
     private Collection<Test> tests;
+
+    @OneToMany(mappedBy = "student")
+    private Collection<TestResult> testResults;
 
     public Collection<Teacher> getTeachers() {
         return teachers;
@@ -29,5 +33,13 @@ public class Student extends User {
 
     public void setTests(Collection<Test> tests) {
         this.tests = tests;
+    }
+
+    public Collection<TestResult> getTestResults() {
+        return testResults;
+    }
+
+    public void setTestResults(Collection<TestResult> testResults) {
+        this.testResults = testResults;
     }
 }

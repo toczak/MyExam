@@ -46,7 +46,7 @@ public class TestController {
             model.addAttribute("pageTitle", "Add test | Teacher | MyExam");
             return "teacher/test-add";
         }
-        testService.saveTest(test);
+        testService.addTest(test);
         return "redirect:/teacher/test/all";
     }
 
@@ -74,7 +74,7 @@ public class TestController {
             model.addAttribute("studentsList", testService.getAllStudents());
             return "teacher/test-edit";
         }
-        testService.saveTest(test);
+        testService.editTest(test);
         return "redirect:/teacher/test/all";
     }
 

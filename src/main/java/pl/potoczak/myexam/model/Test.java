@@ -32,6 +32,9 @@ public class Test {
             inverseJoinColumns = @JoinColumn(name = "student_id"))
     private Collection<Student> students = new ArrayList<>();
 
+    @OneToMany(mappedBy = "test", cascade = CascadeType.ALL)
+    private List<TestResult> testResults;
+
     public Long getId() {
         return id;
     }

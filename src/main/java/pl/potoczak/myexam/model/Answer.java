@@ -2,6 +2,7 @@ package pl.potoczak.myexam.model;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import java.util.Collection;
 
 @Entity
 public class Answer {
@@ -17,6 +18,9 @@ public class Answer {
     @ManyToOne
     @JoinColumn(name = "question_id", nullable = false)
     private Question question;
+
+    @ManyToMany(mappedBy = "answerList")
+    private Collection<TestResult> testResults;
 
     public Long getId() {
         return id;

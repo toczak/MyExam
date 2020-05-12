@@ -36,24 +36,27 @@
                                 <thead>
                                 <tr>
                                     <th>ID</th>
-                                    <th>Question</th>
-                                    <th>Tests</th>
-                                    <th>Action</th>
+                                    <th>Test name</th>
+                                    <th>Questions</th>
+                                    <th>Students</th>
+                                    <th>Actions</th>
                                 </tr>
                                 </thead>
                                 <tfoot>
                                 <tr>
                                     <th>ID</th>
-                                    <th>Question</th>
-                                    <th>Tests</th>
-                                    <th>Action</th>
+                                    <th>Test name</th>
+                                    <th>Questions</th>
+                                    <th>Students</th>
+                                    <th>Actions</th>
                                 </tr>
                                 </tfoot>
                                 <tbody>
                                 <tr th:each="test : ${tests}">
                                     <td th:text="${test.getId()}"></td>
                                     <td th:text="${test.getName()}"></td>
-                                    <td> 1 - jidsidjsaidjsa <br/>2 - terwtrewrew</td>
+                                    <td th:text="${#lists.size(test.getQuestions())}"></td>
+                                    <td th:text="${#lists.size(test.getStudents())}"></td>
                                     <td>
                                         <a th:href="@{/teacher/test/edit/{id}(id=${test.getId()})}"
                                            class="btn btn-secondary btn-circle btn-sm">
