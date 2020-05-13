@@ -10996,3 +10996,28 @@ footer.sticky-footer .copyright {
 body.sidebar-toggled footer.sticky-footer {
   width: 100%;
 }
+
+@media (min-width: 576px) {
+  .card-deck .card {
+    min-width: 50.1%; /* 1 Column */
+    margin-bottom: 12px;
+  }
+}
+
+@media (min-width: 768px) {
+  .card-deck .card {
+    min-width: 33.4%;  /* 2 Columns */
+  }
+}
+
+@media (min-width: 992px) {
+  .card-deck .card {
+    min-width: 25.1%;  /* 3 Columns */
+  }
+}
+
+@media (min-width: 1200px) {
+  .card-deck .card {
+    min-width: 20.1%;  /* 4 Columns */
+  }
+}

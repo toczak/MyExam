@@ -58,6 +58,10 @@
                                     <td th:text="${#lists.size(test.getQuestions())}"></td>
                                     <td th:text="${#lists.size(test.getStudents())}"></td>
                                     <td>
+                                        <a th:href="@{/teacher/test/{id}(id=${test.getId()})}"
+                                           class="btn btn-primary btn-circle btn-sm">
+                                            <i class="fas fa-clipboard-list"></i>
+                                        </a>
                                         <a th:href="@{/teacher/test/edit/{id}(id=${test.getId()})}"
                                            class="btn btn-secondary btn-circle btn-sm">
                                             <i class="fas fa-edit"></i>

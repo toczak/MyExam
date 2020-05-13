@@ -3,6 +3,7 @@ package pl.potoczak.myexam.model;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import java.util.Collection;
+import java.util.Objects;
 
 @Entity
 public class Answer {
@@ -21,6 +22,9 @@ public class Answer {
 
     @ManyToMany(mappedBy = "answerList")
     private Collection<TestResult> testResults;
+
+    public Answer() {
+    }
 
     public Long getId() {
         return id;
@@ -44,6 +48,22 @@ public class Answer {
 
     public void setQuestion(Question question) {
         this.question = question;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Answer answer = (Answer) o;
+        return Objects.equals(id, answer.id) &&
+                Objects.equals(text, answer.text) &&
+                Objects.equals(question, answer.question) &&
+                Objects.equals(testResults, answer.testResults);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, text, question, testResults);
     }
 }
 

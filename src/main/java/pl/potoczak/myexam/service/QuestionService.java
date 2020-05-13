@@ -44,8 +44,10 @@ public class QuestionService {
     }
 
     public Question getQuestionById(long id) {
-        Optional<Question> question = questionRepository.findById(id);
-        return question.orElse(null);
+        Optional<Question> optionalQuestion = questionRepository.findById(id);
+        Question question = optionalQuestion.orElse(null);
+        if (question != null && !question.getTeacher().equals(getPrincipalTeacher())) question = null;
+        return question;
     }
 
     public QuestionDto getQuestionDto(Question question) {

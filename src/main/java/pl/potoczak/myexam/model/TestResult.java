@@ -6,6 +6,7 @@ import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
@@ -18,6 +19,8 @@ public class TestResult {
 
     private boolean isEnabled;
 
+    private int correctQuestions;
+
     @CreationTimestamp
     private Timestamp createdTime;
 
@@ -28,7 +31,7 @@ public class TestResult {
     @JoinTable(name = "tests_answers",
             joinColumns = @JoinColumn(name = "test_id"),
             inverseJoinColumns = @JoinColumn(name = "answer_id"))
-    private Collection<Answer> answerList = new LinkedList<>();
+    private Collection<Answer> answerList = new ArrayList<>();
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
@@ -92,5 +95,13 @@ public class TestResult {
 
     public void setCreatedTime(Timestamp createdTime) {
         this.createdTime = createdTime;
+    }
+
+    public int getCorrectQuestions() {
+        return correctQuestions;
+    }
+
+    public void setCorrectQuestions(int correctQuestions) {
+        this.correctQuestions = correctQuestions;
     }
 }
