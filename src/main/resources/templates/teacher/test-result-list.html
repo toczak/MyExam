@@ -38,6 +38,7 @@
                                     <th>ID</th>
                                     <th>Student full name</th>
                                     <th>Student username</th>
+                                    <th>Is solved?</th>
                                     <th>Correct questions</th>
                                     <th>Percentage of a test</th>
                                     <th>Action</th>
@@ -48,6 +49,7 @@
                                     <th>ID</th>
                                     <th>Student full name</th>
                                     <th>Student username</th>
+                                    <th>Is solved?</th>
                                     <th>Correct questions</th>
                                     <th>Percentage of a test</th>
                                     <th>Action</th>
@@ -58,10 +60,11 @@
                                     <td th:text="${test.getId()}"></td>
                                     <td th:text="${test.student.fullName}"></td>
                                     <td th:text="${test.student.username}"></td>
-                                    <td th:text="${test.correctQuestions}"></td>
-                                    <td th:text="${#numbers.formatDecimal((1.0 * test.correctQuestions / #lists.size(test.getTest().getQuestions()))*100, 1, 'POINT', 2, 'COMMA')+'%'}"></td>
+                                    <td th:text="${test.enabled? 'No':'Yes'}"></td>
+                                    <td th:text="${test.enabled? '-' : test.correctQuestions}"></td>
+                                    <td th:text="${test.enabled? '-' : #numbers.formatDecimal((1.0 * test.correctQuestions / #lists.size(test.getTest().getQuestions()))*100, 1, 'POINT', 2, 'COMMA')+'%'}"></td>
                                     <td>
-                                        <a th:href="@{/teacher/test/{id_test}/result/{id_result}(id_test=${test.getTest().getId()}, id_result=${test.getId()})}" class="btn btn-primary btn-icon-split">
+                                        <a th:if="${!test.enabled}" th:href="@{/teacher/test/{id_test}/result/{id_result}(id_test=${test.getTest().getId()}, id_result=${test.getId()})}" class="btn btn-primary btn-icon-split">
                                             <span class="icon text-white">
                                               <i class="fas fa-clipboard-list"></i>
                                             </span>
