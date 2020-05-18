@@ -1,9 +1,11 @@
 package pl.potoczak.myexam.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.BindingResult;
+import pl.potoczak.myexam.dto.SettingsUserDto;
 import pl.potoczak.myexam.dto.UserDto;
 import pl.potoczak.myexam.model.*;
 import pl.potoczak.myexam.repository.RoleRepository;
@@ -41,6 +43,10 @@ public class UserService {
 
     public boolean isEmailExists(String email) {
         return userRepository.findUserByEmail(email) != null;
+    }
+
+    public Teacher getPrincipalTeacher() {
+        return (Teacher) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
     }
 
     public void validateAddUser(UserDto user, BindingResult result) {
@@ -117,6 +123,17 @@ public class UserService {
         return user;
     }
 
+    public User getEditedSettingsFromDTO(SettingsUserDto userDto) {
+        User user = getPrincipalTeacher();
+        user.setEmail(userDto.getEmail());
+        if (userDto.getPassword() != null && !userDto.getPassword().equals("") && !userDto.getPassword().isEmpty()) {
+            if (!passwordEncoder.encode(userDto.getPassword()).equals(user.getPassword())) {
+                user.setPassword(passwordEncoder.encode(userDto.getPassword()));
+            }
+        }
+        return user;
+    }
+
     public void validateEditUser(UserDto user, BindingResult result) {
         if (!user.getPassword().equals(user.getMatchPassword())) {
             result.rejectValue("matchPassword", "error.matchPassword", "Password don't match.");
@@ -152,4 +169,13 @@ public class UserService {
     }
 
 
+    public void validateEditSettings(SettingsUserDto user, BindingResult result) {
+        if (!user.getPassword().equals(user.getMatchPassword())) {
+            result.rejectValue("matchPassword", "error.matchPassword", "Password don't match.");
+        }
+
+        if (isUserWithEmailWithoutIdExists(user.getEmail(), getPrincipalTeacher().getId())) {
+            result.rejectValue("email", "error.email", "There is already a user with this e-mail!");
+        }
+    }
 }

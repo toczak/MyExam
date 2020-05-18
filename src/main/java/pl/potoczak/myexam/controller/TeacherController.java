@@ -5,6 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import pl.potoczak.myexam.dto.SettingsUserDto;
 import pl.potoczak.myexam.dto.UserDto;
 import pl.potoczak.myexam.model.User;
 import pl.potoczak.myexam.service.UserService;
@@ -31,8 +32,23 @@ public class TeacherController implements Ignored {
 
     @GetMapping(value = {"/settings"})
     public String getSettingsPage(Model model) {
+        User user = userService.getPrincipalTeacher();
+        UserDto userDTO = userService.getUserDTO(user);
         model.addAttribute("pageTitle", "Settings | Teacher | MyExam");
+        model.addAttribute("user", userDTO);
         return "teacher/settings";
+    }
+
+    @PostMapping(value = "/settings/edit")
+    public String editTeacherSettings(@ModelAttribute("user") @Valid SettingsUserDto userDTO, BindingResult result, Model model) {
+        userService.validateEditSettings(userDTO, result);
+        if (result.hasErrors()) {
+            model.addAttribute("pageTitle", "Settings | Teacher | MyExam");
+            return "teacher/settings";
+        }
+        User user = userService.getEditedSettingsFromDTO(userDTO);
+        userService.saveUser(user);
+        return "redirect:/teacher/index";
     }
 
     @GetMapping(value = {"/student/all"})

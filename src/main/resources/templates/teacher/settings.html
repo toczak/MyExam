@@ -22,13 +22,50 @@
         <div class="container-fluid">
 
           <!-- Page Heading -->
-          <div class="d-sm-flex align-items-center justify-content-between mb-4">
-            <h1 class="h3 mb-0 text-gray-800">SETTINGS</h1>
-          </div>
-
-          <!-- Content Row -->
-          <div class="row">
-
+          <h1 class="h3 mb-2 text-gray-800">Settings</h1>
+          <!-- DataTales Example -->
+          <div class="card shadow mb-4">
+            <div class="card-body">
+              <form action="#" th:action="@{/teacher/settings/edit}" th:object="${user}" method="post">
+                <div class="form-row">
+                  <div class="mb-3">
+                    <label for="email">E-mail</label>
+                    <input type="text" class="form-control" id="email" th:field="*{email}"
+                           placeholder="E-mail" required>
+                    <div th:if="${#fields.hasErrors('email')}" class="invalid-feedback d-block"
+                         th:errors="*{email}">
+                    </div>
+                  </div>
+                </div>
+                <div class="form-row">
+                  <div class="mb-3">
+                    <label for="password">Password</label>
+                    <input type="password" class="form-control" id="password" th:field="*{password}"
+                           placeholder="Password">
+                    <small id="passwordChange" class="form-text text-muted">Don't fill if you don't want
+                      change password.
+                    </small>
+                    <div th:if="${#fields.hasErrors('password')}" class="invalid-feedback d-block"
+                         th:errors="*{password}">
+                    </div>
+                  </div>
+                </div>
+                <div class="form-row">
+                  <div class="mb-3">
+                    <label for="matchPassword">Match password</label>
+                    <input type="password" class="form-control" id="matchPassword" th:field="*{matchPassword}"
+                           placeholder="Match password">
+                    <small id="passwordChange" class="form-text text-muted">Don't fill if you don't want
+                      change password.
+                    </small>
+                    <div th:if="${#fields.hasErrors('matchPassword')}" class="invalid-feedback d-block"
+                         th:errors="*{matchPassword}">
+                    </div>
+                  </div>
+                </div>
+                <input class="btn btn-primary" value="Submit" type="submit"/>
+              </form>
+            </div>
           </div>
         </div>
 
